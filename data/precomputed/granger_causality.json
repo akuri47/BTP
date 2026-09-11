@@ -1,0 +1,232 @@
+{
+  "Black Pepper": {
+    "lag_results": [
+      {
+        "lag": 1,
+        "f_statistic": 1.3585,
+        "p_value": 0.2457,
+        "significant": false
+      },
+      {
+        "lag": 2,
+        "f_statistic": 1.0896,
+        "p_value": 0.3392,
+        "significant": false
+      },
+      {
+        "lag": 3,
+        "f_statistic": 0.7469,
+        "p_value": 0.5259,
+        "significant": false
+      },
+      {
+        "lag": 4,
+        "f_statistic": 0.947,
+        "p_value": 0.439,
+        "significant": false
+      },
+      {
+        "lag": 5,
+        "f_statistic": 0.9624,
+        "p_value": 0.4434,
+        "significant": false
+      },
+      {
+        "lag": 6,
+        "f_statistic": 0.8426,
+        "p_value": 0.5393,
+        "significant": false
+      }
+    ],
+    "any_significant": false,
+    "best_lag": null,
+    "n_observations": 147
+  },
+  "Coriander": {
+    "lag_results": [
+      {
+        "lag": 1,
+        "f_statistic": 0.0276,
+        "p_value": 0.8683,
+        "significant": false
+      },
+      {
+        "lag": 2,
+        "f_statistic": 0.1267,
+        "p_value": 0.8811,
+        "significant": false
+      },
+      {
+        "lag": 3,
+        "f_statistic": 0.3811,
+        "p_value": 0.7668,
+        "significant": false
+      },
+      {
+        "lag": 4,
+        "f_statistic": 0.5168,
+        "p_value": 0.7235,
+        "significant": false
+      },
+      {
+        "lag": 5,
+        "f_statistic": 0.4378,
+        "p_value": 0.8215,
+        "significant": false
+      },
+      {
+        "lag": 6,
+        "f_statistic": 0.3439,
+        "p_value": 0.9123,
+        "significant": false
+      }
+    ],
+    "any_significant": false,
+    "best_lag": null,
+    "n_observations": 147
+  },
+  "Cumin (Jeera)": {
+    "lag_results": [
+      {
+        "lag": 1,
+        "f_statistic": 3.5112,
+        "p_value": 0.063,
+        "significant": false
+      },
+      {
+        "lag": 2,
+        "f_statistic": 4.3451,
+        "p_value": 0.0148,
+        "significant": true
+      },
+      {
+        "lag": 3,
+        "f_statistic": 3.3061,
+        "p_value": 0.0222,
+        "significant": true
+      },
+      {
+        "lag": 4,
+        "f_statistic": 2.4934,
+        "p_value": 0.046,
+        "significant": true
+      },
+      {
+        "lag": 5,
+        "f_statistic": 1.9312,
+        "p_value": 0.0934,
+        "significant": false
+      },
+      {
+        "lag": 6,
+        "f_statistic": 2.6118,
+        "p_value": 0.0202,
+        "significant": true
+      }
+    ],
+    "any_significant": true,
+    "best_lag": {
+      "lag": 2,
+      "f_statistic": 4.3451,
+      "p_value": 0.0148,
+      "significant": true
+    },
+    "n_observations": 147
+  },
+  "Dry Chillies": {
+    "lag_results": [
+      {
+        "lag": 1,
+        "f_statistic": 6.0638,
+        "p_value": 0.015,
+        "significant": true
+      },
+      {
+        "lag": 2,
+        "f_statistic": 2.7066,
+        "p_value": 0.0703,
+        "significant": false
+      },
+      {
+        "lag": 3,
+        "f_statistic": 2.5354,
+        "p_value": 0.0594,
+        "significant": false
+      },
+      {
+        "lag": 4,
+        "f_statistic": 1.8074,
+        "p_value": 0.131,
+        "significant": false
+      },
+      {
+        "lag": 5,
+        "f_statistic": 1.8967,
+        "p_value": 0.0991,
+        "significant": false
+      },
+      {
+        "lag": 6,
+        "f_statistic": 1.6112,
+        "p_value": 0.1491,
+        "significant": false
+      }
+    ],
+    "any_significant": true,
+    "best_lag": {
+      "lag": 1,
+      "f_statistic": 6.0638,
+      "p_value": 0.015,
+      "significant": true
+    },
+    "n_observations": 147
+  },
+  "Turmeric": {
+    "lag_results": [
+      {
+        "lag": 1,
+        "f_statistic": 4.9459,
+        "p_value": 0.0277,
+        "significant": true
+      },
+      {
+        "lag": 2,
+        "f_statistic": 2.9013,
+        "p_value": 0.0583,
+        "significant": false
+      },
+      {
+        "lag": 3,
+        "f_statistic": 2.481,
+        "p_value": 0.0637,
+        "significant": false
+      },
+      {
+        "lag": 4,
+        "f_statistic": 2.1803,
+        "p_value": 0.0745,
+        "significant": false
+      },
+      {
+        "lag": 5,
+        "f_statistic": 1.7159,
+        "p_value": 0.1353,
+        "significant": false
+      },
+      {
+        "lag": 6,
+        "f_statistic": 1.4273,
+        "p_value": 0.2091,
+        "significant": false
+      }
+    ],
+    "any_significant": true,
+    "best_lag": {
+      "lag": 1,
+      "f_statistic": 4.9459,
+      "p_value": 0.0277,
+      "significant": true
+    },
+    "n_observations": 147
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "Black Pepper": {
+    "omega": 0.71257,
+    "alpha": 0.0,
+    "beta": 0.9488,
+    "persistence": 0.9488,
+    "log_likelihood": -431.42,
+    "aic": 870.84,
+    "bic": 882.93,
+    "mean_cond_vol": 4.097,
+    "max_cond_vol": 6.2357,
+    "interpretation": "HIGH volatility persistence (a+b=0.949)."
+  },
+  "Coriander": {
+    "omega": 31.25892,
+    "alpha": 0.2296,
+    "beta": 0.1468,
+    "persistence": 0.3765,
+    "log_likelihood": -508.09,
+    "aic": 1024.18,
+    "bic": 1036.28,
+    "mean_cond_vol": 6.9329,
+    "max_cond_vol": 14.4428,
+    "interpretation": "LOW volatility persistence (a+b=0.376)."
+  },
+  "Cumin (Jeera)": {
+    "omega": 15.64877,
+    "alpha": 0.4448,
+    "beta": 0.2155,
+    "persistence": 0.6603,
+    "log_likelihood": -488.71,
+    "aic": 985.42,
+    "bic": 997.51,
+    "mean_cond_vol": 6.3039,
+    "max_cond_vol": 16.8958,
+    "interpretation": "LOW volatility persistence (a+b=0.660)."
+  },
+  "Dry Chillies": {
+    "omega": 0.357788,
+    "alpha": 0.0,
+    "beta": 1.0,
+    "persistence": 1.0,
+    "log_likelihood": -480.42,
+    "aic": 968.84,
+    "bic": 980.94,
+    "mean_cond_vol": 6.0175,
+    "max_cond_vol": 8.0635,
+    "interpretation": "HIGH volatility persistence (a+b=1.000)."
+  },
+  "Turmeric": {
+    "omega": 27.395177,
+    "alpha": 0.4785,
+    "beta": 0.0,
+    "persistence": 0.4785,
+    "log_likelihood": -495.23,
+    "aic": 998.46,
+    "bic": 1010.56,
+    "mean_cond_vol": 6.5789,
+    "max_cond_vol": 24.264,
+    "interpretation": "LOW volatility persistence (a+b=0.478)."
+  }
+}

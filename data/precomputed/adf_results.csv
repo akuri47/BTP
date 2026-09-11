@@ -1,0 +1,11 @@
+spice,test_on,adf_stat,p_value,stationary
+Black Pepper,Level,-1.103,0.7139,False
+Black Pepper,Log Return,-8.5584,0.0,True
+Coriander,Level,-1.6233,0.471,False
+Coriander,Log Return,-10.0161,0.0,True
+Cumin (Jeera),Level,-1.9161,0.3245,False
+Cumin (Jeera),Log Return,-8.9252,0.0,True
+Dry Chillies,Level,-1.0305,0.742,False
+Dry Chillies,Log Return,-12.9772,0.0,True
+Turmeric,Level,-0.1165,0.9478,False
+Turmeric,Log Return,-7.2515,0.0,True

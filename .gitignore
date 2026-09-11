@@ -1,0 +1,30 @@
+# Environment & Secrets
+.env
+.streamlit/secrets.toml
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Models (large files - optional, can be re-generated)
+# models/*.h5
+# models/*.pt
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data (large raw API pulls and daily dumps)
+data/raw/
+data/processed/spice_daily_prices.csv

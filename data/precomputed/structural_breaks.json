@@ -1,0 +1,54 @@
+{
+  "Black Pepper": [
+    {
+      "date": "2017-04-01",
+      "price_before": 60882.73,
+      "price_after": 45684.37,
+      "pct_change": -24.96,
+      "direction": "down"
+    },
+    {
+      "date": "2025-03-01",
+      "price_before": 47696.89,
+      "price_after": 62687.47,
+      "pct_change": 31.43,
+      "direction": "up"
+    }
+  ],
+  "Coriander": [
+    {
+      "date": "2021-11-01",
+      "price_before": 6492.15,
+      "price_after": 8179.39,
+      "pct_change": 25.99,
+      "direction": "up"
+    }
+  ],
+  "Cumin (Jeera)": [
+    {
+      "date": "2015-04-01",
+      "price_before": 10665.89,
+      "price_after": 18221.45,
+      "pct_change": 70.84,
+      "direction": "up"
+    }
+  ],
+  "Dry Chillies": [
+    {
+      "date": "2019-11-01",
+      "price_before": 9191.48,
+      "price_after": 15513.39,
+      "pct_change": 68.78,
+      "direction": "up"
+    }
+  ],
+  "Turmeric": [
+    {
+      "date": "2024-03-01",
+      "price_before": 6749.4,
+      "price_after": 12141.45,
+      "pct_change": 79.89,
+      "direction": "up"
+    }
+  ]
+}
