@@ -1,4 +1,4 @@
-# 🌶️ Price Dynamics and Adulteration Forecasting in Spices
+# Price Dynamics and Adulteration Forecasting in Spices
 
 **BTP Project** — Data Science Analysis & Forecasting Dashboard for Indian Spices
 
