@@ -12,16 +12,18 @@ This project investigates whether spice price volatility in Indian wholesale mar
 - **GARCH(1,1) Volatility Modeling** per spice
 - **Cross-Correlation & Granger Causality** testing (price volatility → adulteration)
 - **Hybrid Forecasting** (SARIMA + LSTM) with MAPE evaluation
+- **Adulteration Risk Early Warning System** — composite risk score (0–100) with traffic-light classification, validated against 5 known events
+- **Multi-Source Adulteration Data** — openFDA (scraped) + EU RASFF (published) + FSSAI (Parliamentary replies)
 - **Interactive Streamlit Dashboard** for exploration
 
 ## Data Sources
 
-| Source | What | Frequency |
-|--------|------|-----------|
-| [Agmarknet / data.gov.in](https://data.gov.in) | APMC mandi wholesale prices | Daily (2006–2026) |
-| [EU RASFF](https://food.ec.europa.eu/safety/rasff-food-and-feed-safety-alerts/rasff-window_en) | Border rejection notifications for Indian spices | Daily (2000–2026) |
-| [US FDA Import Refusals](https://datadashboard.fda.gov/oii/index.htm) | Spice shipment refusals (Industry Code 28) | Monthly (2005–2026) |
-| [FSSAI Parliamentary Replies](https://sansad.in) | Domestic spice testing results | Annual (2022–2024) |
+| Source | What | Frequency | Access |
+|--------|------|-----------|--------|
+| [Agmarknet / data.gov.in](https://data.gov.in) | APMC mandi wholesale prices | Daily (2014–2026) | API (real-time) |
+| [openFDA API](https://api.fda.gov) | US FDA food enforcement actions (recalls, seizures) for spice products | Event-based | API (scraped) |
+| [EU RASFF Annual Reports](https://food.ec.europa.eu/safety/rasff-food-and-feed-safety-alerts_en) | Border rejection notifications for India-origin herbs & spices | Annual aggregates | Published reports |
+| [FSSAI Parliamentary Replies](https://sansad.in) | Domestic spice testing results & failure rates | Annual (exact FY2022-24) | Rajya Sabha Q.1907, Lok Sabha Q.1252 |
 
 ## Project Structure
 
@@ -33,15 +35,16 @@ BTP/
 ├── .streamlit/
 │   └── secrets.toml        # API key (gitignored)
 ├── data/
-│   ├── raw/                # Raw API responses
-│   ├── processed/          # Cleaned, aggregated CSVs
+│   ├── raw/                # Raw API responses + openFDA JSON
+│   ├── processed/          # Cleaned CSVs (prices + multi-source adulteration)
 │   └── precomputed/        # Analysis results for dashboard
 ├── models/                 # Saved SARIMA/LSTM models
 ├── notebooks/              # Training pipeline notebooks
 └── src/
-    ├── data_acquisition.py # API fetch + clean
+    ├── data_acquisition.py # API fetch + clean + multi-source adulteration
     ├── analysis.py         # ADF, GARCH, Granger causality
-    └── forecasting.py      # SARIMA + LSTM + Hybrid
+    ├── forecasting.py      # SARIMA + LSTM + Hybrid
+    └── risk_scoring.py     # Composite risk index + backtesting
 ```
 
 ## Quick Start
@@ -95,6 +98,7 @@ streamlit run app.py
 - **Correlation:** Pearson cross-correlation at ±12 monthly lags
 - **Causality:** Granger causality (F-test, lags 1–6)
 - **Forecasting:** SARIMA(1,1,1)(1,1,1,12) + LSTM (2-layer, 64 hidden) → Hybrid ensemble
+- **Risk Scoring:** OECD-style composite index using 5 normalized signals (price percentile, volatility, momentum, seasonality, adulteration trend) with analysis-derived weights; backtested against 5 known events (5/5 detected)
 
 ## License
 

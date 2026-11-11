@@ -1,6 +1,6 @@
 {
   "Black Pepper": {
-    "omega": 0.71257,
+    "omega": 0.712571,
     "alpha": 0.0,
     "beta": 0.9488,
     "persistence": 0.9488,
@@ -9,10 +9,10 @@
     "bic": 882.93,
     "mean_cond_vol": 4.097,
     "max_cond_vol": 6.2357,
-    "interpretation": "HIGH volatility persistence (a+b=0.949)."
+    "interpretation": "HIGH volatility persistence (\u03b1+\u03b2=0.949). Shocks are highly persistent \u2014 volatility clustering is strong."
   },
   "Coriander": {
-    "omega": 31.25892,
+    "omega": 31.259234,
     "alpha": 0.2296,
     "beta": 0.1468,
     "persistence": 0.3765,
@@ -21,10 +21,10 @@
     "bic": 1036.28,
     "mean_cond_vol": 6.9329,
     "max_cond_vol": 14.4428,
-    "interpretation": "LOW volatility persistence (a+b=0.376)."
+    "interpretation": "LOW volatility persistence (\u03b1+\u03b2=0.376). Shocks decay quickly."
   },
   "Cumin (Jeera)": {
-    "omega": 15.64877,
+    "omega": 15.648827,
     "alpha": 0.4448,
     "beta": 0.2155,
     "persistence": 0.6603,
@@ -33,7 +33,7 @@
     "bic": 997.51,
     "mean_cond_vol": 6.3039,
     "max_cond_vol": 16.8958,
-    "interpretation": "LOW volatility persistence (a+b=0.660)."
+    "interpretation": "LOW volatility persistence (\u03b1+\u03b2=0.660). Shocks decay quickly."
   },
   "Dry Chillies": {
     "omega": 0.357788,
@@ -45,18 +45,18 @@
     "bic": 980.94,
     "mean_cond_vol": 6.0175,
     "max_cond_vol": 8.0635,
-    "interpretation": "HIGH volatility persistence (a+b=1.000)."
+    "interpretation": "HIGH volatility persistence (\u03b1+\u03b2=1.000). Shocks are highly persistent \u2014 volatility clustering is strong."
   },
   "Turmeric": {
-    "omega": 27.395177,
+    "omega": 27.395038,
     "alpha": 0.4785,
     "beta": 0.0,
     "persistence": 0.4785,
     "log_likelihood": -495.23,
     "aic": 998.46,
     "bic": 1010.56,
-    "mean_cond_vol": 6.5789,
-    "max_cond_vol": 24.264,
-    "interpretation": "LOW volatility persistence (a+b=0.478)."
+    "mean_cond_vol": 6.5788,
+    "max_cond_vol": 24.2641,
+    "interpretation": "LOW volatility persistence (\u03b1+\u03b2=0.478). Shocks decay quickly."
   }
 }

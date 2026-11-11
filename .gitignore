@@ -1,5 +1,6 @@
 # Environment & Secrets
 .env
+.env.example
 .streamlit/secrets.toml
 
 # Python
@@ -10,9 +11,8 @@ dist/
 build/
 *.egg
 
-# Models (large files - optional, can be re-generated)
-# models/*.h5
-# models/*.pt
+# Models (large files)
+models/
 
 # IDE
 .vscode/
@@ -21,10 +21,21 @@ build/
 # OS
 Thumbs.db
 .DS_Store
+~$*
 
 # Jupyter
 .ipynb_checkpoints/
 
-# Data (large raw API pulls and daily dumps)
+# Large data files (not needed for Streamlit deployment)
 data/raw/
 data/processed/spice_daily_prices.csv
+data/processed/fda_enforcement_spice_detail.csv
+
+# Report/PPT files (not needed for deployment)
+*.docx
+*.pptx
+*.pdf
+*.zip
+
+# PPT assets
+ppt_assets/

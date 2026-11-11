@@ -17,7 +17,7 @@ from pathlib import Path
 # ─── Page Config ─────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="Spice Price Dynamics & Adulteration Correlation — India",
-    page_icon="🌶️",
+    page_icon="SP",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -98,11 +98,34 @@ def load_garch_vol(spice):
         return pd.read_csv(path, parse_dates=["date"])
     return None
 
+@st.cache_data
+def load_risk_scores():
+    path = PRECOMPUTED_DIR / "risk_scores.csv"
+    if path.exists():
+        return pd.read_csv(path, parse_dates=["date"])
+    return None
+
+@st.cache_data
+def load_risk_backtest():
+    path = PRECOMPUTED_DIR / "risk_backtest.json"
+    if path.exists():
+        with open(path) as f:
+            return json.load(f)
+    return []
+
+@st.cache_data
+def load_risk_weights():
+    path = PRECOMPUTED_DIR / "risk_weights.json"
+    if path.exists():
+        with open(path) as f:
+            return json.load(f)
+    return {}
+
 
 # ─── Sidebar ─────────────────────────────────────────────────────────────────
 
-st.sidebar.title("🌶️ Spice Analytics")
-st.sidebar.markdown("**BTP: Spice Price Dynamics & Adulteration-Incidence Correlation in India**")
+st.sidebar.title("Spice Analytics")
+st.sidebar.markdown("**Spice Price Dynamics & Adulteration-Incidence Correlation in India**")
 st.sidebar.markdown("---")
 
 df_monthly = load_monthly_prices()
@@ -125,6 +148,7 @@ view_mode = st.sidebar.radio("View Mode", ["National Average", "State-wise"], in
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("**Analysis Panels**")
+show_risk_dashboard = st.sidebar.checkbox("Risk Early Warning", value=True)
 show_price_trend = st.sidebar.checkbox("Price Trend + Break Points", value=True)
 show_volatility = st.sidebar.checkbox("GARCH Volatility", value=True)
 show_correlation = st.sidebar.checkbox("Cross-Correlation & Granger", value=True)
@@ -132,8 +156,8 @@ show_forecast = st.sidebar.checkbox("Forecast (Actual vs Predicted)", value=True
 show_summary = st.sidebar.checkbox("Summary & Insights", value=True)
 
 st.sidebar.markdown("---")
-st.sidebar.caption("Data: Agmarknet (data.gov.in) | EU RASFF | FSSAI")
-st.sidebar.caption("Built for BTP — IIT/NIT Food Science")
+st.sidebar.caption("Data: Agmarknet (data.gov.in) | openFDA | EU RASFF | FSSAI")
+
 
 
 # ─── Filter Data ─────────────────────────────────────────────────────────────
@@ -159,15 +183,187 @@ df_adult_spice = df_adult[
 
 # ─── Title ───────────────────────────────────────────────────────────────────
 
-st.title(f"🌶️ {selected_spice} — Price Dynamics & Adulteration Analysis")
+st.title(f"{selected_spice} — Price Dynamics & Adulteration Analysis")
 st.markdown(f"**{start_date.strftime('%b %Y')} — {end_date.strftime('%b %Y')}** | "
             f"{len(df_spice)} monthly observations")
+
+
+# ─── Panel 0: Risk Early Warning Dashboard ───────────────────────────────────
+
+if show_risk_dashboard:
+    st.header("Adulteration Risk — Early Warning System")
+
+    df_risk = load_risk_scores()
+
+    if df_risk is not None and not df_risk.empty:
+        # --- Traffic light cards for ALL spices (latest month) ---
+        latest_all = df_risk.sort_values("date").groupby("spice").last().reset_index()
+
+        st.subheader("Current Risk Levels (All Spices)")
+        cols = st.columns(len(latest_all))
+        for i, (_, row) in enumerate(latest_all.iterrows()):
+            level = row["risk_level"]
+            score = row["risk_score"]
+            color_map = {"High": "<span style='color:#ef4444'>&#9679;</span>", "Moderate": "<span style='color:#eab308'>&#9679;</span>", "Low": "<span style='color:#22c55e'>&#9679;</span>", "Unknown": "<span style='color:#9ca3af'>&#9679;</span>"}
+            bg_map = {"High": "#fee2e2", "Moderate": "#fef9c3", "Low": "#dcfce7", "Unknown": "#f3f4f6"}
+
+            with cols[i]:
+                st.markdown(
+                    f"""<div style="background:{bg_map.get(level, '#f3f4f6')};
+                    border-radius:12px; padding:16px; text-align:center; border:1px solid #e5e7eb;">
+                    <div style="font-size:28px">{color_map.get(level, '<span style=\'color:#9ca3af\'>&#9679;</span>')}</div>
+                    <div style="font-size:14px; font-weight:600; margin:4px 0; color:#1f2937">{row['spice']}</div>
+                    <div style="font-size:24px; font-weight:700; color:#1f2937">{score:.0f}</div>
+                    <div style="font-size:12px; color:#6b7280">{level} Risk</div>
+                    </div>""",
+                    unsafe_allow_html=True
+                )
+
+        st.markdown("")  # spacer
+
+        # --- Selected spice: detailed risk timeline ---
+        df_risk_spice = df_risk[
+            (df_risk["spice"] == selected_spice) &
+            (df_risk["date"] >= start_date) &
+            (df_risk["date"] <= end_date)
+        ].copy()
+
+        if not df_risk_spice.empty:
+            st.subheader(f"{selected_spice} — Risk Score Timeline")
+
+            # Risk score line chart with colored zones
+            fig_risk = go.Figure()
+
+            # Background zones
+            fig_risk.add_hrect(y0=0, y1=35, fillcolor="rgba(34,197,94,0.08)",
+                              line_width=0, annotation_text="Low Risk Zone",
+                              annotation_position="bottom left",
+                              annotation=dict(font_size=10, font_color="#16a34a"))
+            fig_risk.add_hrect(y0=35, y1=65, fillcolor="rgba(234,179,8,0.08)",
+                              line_width=0, annotation_text="Moderate",
+                              annotation_position="bottom left",
+                              annotation=dict(font_size=10, font_color="#ca8a04"))
+            fig_risk.add_hrect(y0=65, y1=100, fillcolor="rgba(239,68,68,0.08)",
+                              line_width=0, annotation_text="High Risk Zone",
+                              annotation_position="bottom left",
+                              annotation=dict(font_size=10, font_color="#dc2626"))
+
+            # Color each segment by risk level
+            colors = df_risk_spice["risk_level"].map(
+                {"High": "#ef4444", "Moderate": "#eab308", "Low": "#22c55e"}
+            ).fillna("#9ca3af")
+
+            fig_risk.add_trace(go.Scatter(
+                x=df_risk_spice["date"], y=df_risk_spice["risk_score"],
+                mode="lines+markers",
+                name="Risk Score",
+                line=dict(color="#4b5563", width=2),
+                marker=dict(color=colors.tolist(), size=6, line=dict(width=1, color="white")),
+                hovertemplate="Date: %{x|%b %Y}<br>Risk: %{y:.0f}/100<extra></extra>",
+            ))
+
+            fig_risk.update_layout(
+                yaxis_title="Risk Score (0–100)", xaxis_title="Date",
+                yaxis=dict(range=[0, 100]),
+                height=350, hovermode="x unified",
+                showlegend=False,
+            )
+            st.plotly_chart(fig_risk, use_container_width=True)
+
+            # --- Signal decomposition (stacked area or radar) ---
+            with st.expander("Signal Decomposition — What's Driving the Risk?"):
+                signal_cols = {
+                    "signal_price": "Price Level",
+                    "signal_volatility": "Volatility",
+                    "signal_momentum": "Momentum",
+                    "signal_seasonal": "Seasonal",
+                    "signal_trend": "Adulter. Trend",
+                }
+                available_signals = [c for c in signal_cols if c in df_risk_spice.columns]
+
+                if available_signals:
+                    fig_signals = go.Figure()
+                    signal_colors = ["#3b82f6", "#ef4444", "#f97316", "#8b5cf6", "#10b981"]
+                    for idx, col in enumerate(available_signals):
+                        fig_signals.add_trace(go.Scatter(
+                            x=df_risk_spice["date"],
+                            y=df_risk_spice[col],
+                            mode="lines",
+                            name=signal_cols[col],
+                            line=dict(width=1.5, color=signal_colors[idx % len(signal_colors)]),
+                            stackgroup="one" if idx > 0 else None,
+                        ))
+                    fig_signals.update_layout(
+                        yaxis_title="Signal Strength (0–1)", height=300,
+                        hovermode="x unified",
+                        legend=dict(orientation="h", yanchor="bottom", y=1.02),
+                    )
+                    st.plotly_chart(fig_signals, use_container_width=True)
+
+                # Latest month signal breakdown
+                latest_row = df_risk_spice.iloc[-1]
+                st.markdown(f"**Latest month ({latest_row['date'].strftime('%b %Y')}) signal values:**")
+                sig_data = []
+                weights = load_risk_weights().get(selected_spice, {})
+                for col in available_signals:
+                    val = latest_row[col]
+                    weight = weights.get(col.replace("signal_", ""), 0)
+                    contribution = val * weight * 100
+                    sig_data.append({
+                        "Signal": signal_cols[col],
+                        "Value": f"{val:.2f}",
+                        "Weight": f"{weight:.0%}",
+                        "Contribution": f"{contribution:.1f} pts",
+                    })
+                st.dataframe(pd.DataFrame(sig_data), use_container_width=True, hide_index=True)
+
+        # --- Backtest results ---
+        with st.expander("Backtest — Did it catch known events?"):
+            backtest = load_risk_backtest()
+            if backtest:
+                bt_df = pd.DataFrame(backtest)
+                display_cols = ["event", "period", "spice", "avg_score", "pct_moderate_plus", "verdict"]
+                available_bt_cols = [c for c in display_cols if c in bt_df.columns]
+                st.dataframe(bt_df[available_bt_cols], use_container_width=True, hide_index=True)
+
+                n_detected = sum(1 for b in backtest if b.get("detected"))
+                st.success(f"**{n_detected}/{len(backtest)} known adulteration events correctly detected** "
+                           f"by the early warning system (≥50% months flagged Moderate or above).")
+            else:
+                st.info("No backtest results available.")
+
+        # --- Methodology note ---
+        with st.expander("Risk Score Methodology"):
+            st.markdown("""
+            **Composite Risk Index** following the OECD Composite Indicators Handbook (2008):
+
+            1. **Five signals** are computed per spice per month:
+               - *Price Percentile* — where current price sits in its 5-year distribution
+               - *Volatility* — rolling 3-month std of log returns, normalized historically
+               - *Momentum* — 3-month price change, normalized
+               - *Seasonal Factor* — empirical monthly risk weights (post-harvest = higher)
+               - *Adulteration Trend* — sigmoid-transformed rolling change in incident count
+
+            2. **Normalization:** Each signal is scaled to [0, 1] using rolling percentile rank.
+
+            3. **Weighting:** Weights are **derived from this project's own analysis results**:
+               - Spices with significant Granger causality (Turmeric) get higher volatility weights
+               - Spices with strong cross-correlation (Dry Chillies, Cumin) get moderately boosted weights
+               - Spices with weak correlation (Black Pepper, Coriander) rely more on direct trend signals
+
+            4. **Classification:** Score 0–35 = Low, 35–65 = Moderate, 65–100 = High
+
+            5. **Validation:** Backtested against 5 known adulteration episodes (2015–2025).
+            """)
+
+    else:
+        st.warning("Risk scores not available. Run `python -m src.risk_scoring` to generate.")
 
 
 # ─── Panel 1: Price Trend with Structural Breaks ────────────────────────────
 
 if show_price_trend and not df_spice.empty:
-    st.header("📈 Price Trend with Structural Break Points")
+    st.header("Price Trend with Structural Break Points")
 
     breaks = load_structural_breaks().get(selected_spice, [])
 
@@ -236,7 +432,7 @@ if show_price_trend and not df_spice.empty:
 
     # Break points table
     if breaks:
-        with st.expander(f"📋 Structural Break Points ({len(breaks)} detected)"):
+        with st.expander(f"Structural Break Points ({len(breaks)} detected)"):
             bp_df = pd.DataFrame(breaks)
             st.dataframe(bp_df, use_container_width=True)
 
@@ -244,7 +440,7 @@ if show_price_trend and not df_spice.empty:
 # ─── Panel 2: GARCH Volatility ──────────────────────────────────────────────
 
 if show_volatility:
-    st.header("📊 GARCH(1,1) Volatility Analysis")
+    st.header("GARCH(1,1) Volatility Analysis")
 
     garch = load_garch_results().get(selected_spice, {})
     vol_df = load_garch_vol(selected_spice)
@@ -283,7 +479,7 @@ if show_volatility:
         st.warning(f"No GARCH results available for {selected_spice}.")
 
     # Compare volatility across all spices
-    with st.expander("🔍 Compare Volatility Across All Spices"):
+    with st.expander("Compare Volatility Across All Spices"):
         all_garch = load_garch_results()
         if all_garch:
             comp_data = []
@@ -302,7 +498,7 @@ if show_volatility:
 # ─── Panel 3: Cross-Correlation & Granger Causality ─────────────────────────
 
 if show_correlation:
-    st.header("🔗 Price Volatility ↔ Adulteration Correlation")
+    st.header("Price Volatility ↔ Adulteration Correlation")
 
     xcorr = load_cross_correlations().get(selected_spice, {})
     granger = load_granger_results().get(selected_spice, {})
@@ -342,7 +538,7 @@ if show_correlation:
         st.subheader("Granger Causality Test")
         if granger and granger.get("lag_results"):
             gc_df = pd.DataFrame(granger["lag_results"])
-            gc_df["Result"] = gc_df["significant"].map({True: "✅ Significant", False: "❌ Not Sig."})
+            gc_df["Result"] = gc_df["significant"].map({True: "Significant", False: "Not Sig."})
             st.dataframe(gc_df[["lag", "f_statistic", "p_value", "Result"]], use_container_width=True)
 
             if granger.get("any_significant"):
@@ -363,7 +559,7 @@ if show_correlation:
 
     # Dual-axis time series plot
     if not df_spice.empty and not df_adult_spice.empty:
-        with st.expander("📊 Price vs Adulteration Incidents (Dual-Axis)"):
+        with st.expander("Price vs Adulteration Incidents (Dual-Axis)"):
             fig_dual = make_subplots(specs=[[{"secondary_y": True}]])
             fig_dual.add_trace(
                 go.Scatter(x=df_spice["date"], y=df_spice["modal_price_mean"],
@@ -380,11 +576,45 @@ if show_correlation:
             fig_dual.update_layout(height=400, hovermode="x unified")
             st.plotly_chart(fig_dual, use_container_width=True)
 
+    # Source-level breakdown (stacked bar chart)
+    has_sources = all(col in df_adult_spice.columns for col in
+                      ["fda_enforcement_count", "rasff_notification_count", "fssai_failure_count"])
+    if not df_adult_spice.empty and has_sources:
+        with st.expander("Adulteration Data — Source Breakdown"):
+            st.caption("Incidents by monitoring agency: US FDA (enforcement), EU RASFF (border notifications), FSSAI (domestic surveillance)")
+            fig_src = go.Figure()
+            fig_src.add_trace(go.Bar(
+                x=df_adult_spice["date"], y=df_adult_spice["fda_enforcement_count"],
+                name="US FDA Enforcement", marker_color="#1f77b4",
+            ))
+            fig_src.add_trace(go.Bar(
+                x=df_adult_spice["date"], y=df_adult_spice["rasff_notification_count"],
+                name="EU RASFF Notifications", marker_color="#ff7f0e",
+            ))
+            fig_src.add_trace(go.Bar(
+                x=df_adult_spice["date"], y=df_adult_spice["fssai_failure_count"],
+                name="FSSAI Domestic Failures", marker_color="#2ca02c",
+            ))
+            fig_src.update_layout(
+                barmode="stack", height=350,
+                yaxis_title="Incident Count", xaxis_title="Date",
+                hovermode="x unified",
+                legend=dict(orientation="h", yanchor="bottom", y=1.02),
+            )
+            st.plotly_chart(fig_src, use_container_width=True)
+
+            # Data quality indicator
+            if "fssai_data_quality" in df_adult_spice.columns:
+                exact_pct = (df_adult_spice["fssai_data_quality"] == "exact").mean() * 100
+                st.info(f"**Data quality:** {exact_pct:.0f}% of FSSAI rows are from exact Parliamentary/official figures. "
+                        f"FDA records are real scraped data from openFDA API. "
+                        f"RASFF figures are annual totals from published EU Commission reports, distributed monthly.")
+
 
 # ─── Panel 4: Forecast ──────────────────────────────────────────────────────
 
 if show_forecast:
-    st.header("🔮 Price Forecast (Actual vs Predicted)")
+    st.header("Price Forecast (Actual vs Predicted)")
 
     fc_results = load_forecast_results().get(selected_spice, {})
 
@@ -398,7 +628,7 @@ if show_forecast:
             "Select Forecast Model",
             available_models,
             index=available_models.index(best_model) if best_model in available_models else 0,
-            format_func=lambda x: f"{x.upper()} {'⭐ (Best)' if x == best_model else ''}",
+            format_func=lambda x: f"{x.upper()} {'(Best)' if x == best_model else ''}",
         )
 
         model_data = fc_results[selected_model]
@@ -460,7 +690,7 @@ if show_forecast:
             st.plotly_chart(fig_fc, use_container_width=True)
 
         # Model comparison table
-        with st.expander("📊 Model Comparison"):
+        with st.expander("Model Comparison"):
             comp_rows = []
             for m in ["sarima", "lstm", "hybrid"]:
                 if m in fc_results:
@@ -468,7 +698,7 @@ if show_forecast:
                         "Model": m.upper(),
                         "MAPE (%)": fc_results[m].get("mape"),
                         "RMSE (₹)": fc_results[m].get("rmse"),
-                        "Best?": "⭐" if m == best_model else "",
+                        "Best?": "*" if m == best_model else "",
                     })
             st.dataframe(pd.DataFrame(comp_rows), use_container_width=True)
     else:
@@ -478,7 +708,7 @@ if show_forecast:
 # ─── Panel 5: Summary & Insights ────────────────────────────────────────────
 
 if show_summary:
-    st.header("📋 Summary & Policy Insights")
+    st.header("Summary & Policy Insights")
 
     garch = load_garch_results().get(selected_spice, {})
     xcorr = load_cross_correlations().get(selected_spice, {})
@@ -527,12 +757,12 @@ if show_summary:
     if granger:
         if granger.get("any_significant"):
             summary_parts.append(
-                "\n**Granger causality:** ✅ Confirmed — price volatility statistically "
+                "\n**Granger causality:** Confirmed — price volatility statistically "
                 "helps predict future adulteration rates."
             )
         else:
             summary_parts.append(
-                "\n**Granger causality:** ❌ Not significant at p < 0.05. "
+                "\n**Granger causality:** Not significant at p < 0.05. "
                 "Relationship is suggestive but not strong enough for causal claims "
                 "given current data granularity."
             )
@@ -547,7 +777,7 @@ if show_summary:
     # Policy framing
     summary_parts.append(
         "\n---\n"
-        "### 🏛️ Policy Implication\n"
+        "### Policy Implication\n"
         f"When {selected_spice} prices spike or show high volatility, "
         f"FSSAI / State Food Safety Officers should intensify surveillance "
         f"and random sampling of {selected_spice.lower()} products in the following months. "
@@ -559,35 +789,36 @@ if show_summary:
     st.markdown("\n\n".join(summary_parts))
 
     # Data limitations
-    with st.expander("⚠️ Data Limitations & Caveats"):
+    with st.expander("Data Limitations & Caveats"):
         st.markdown("""
         **Important caveats for interpreting these results:**
 
-        1. **Adulteration data granularity:** The FSSAI official dataset (data.gov.in) provides only
-           annual, all-food-category aggregate data. Spice-specific incidence is derived from
-           EU RASFF border notifications, US FDA import refusals, and FSSAI Parliamentary disclosures
-           (2022-2024). This is a **proxy indicator**, not a comprehensive domestic census.
+        1. **Adulteration data is multi-sourced with varying granularity:**
+           - **US FDA:** Real enforcement records scraped from openFDA API (recalls, seizures).
+             These are *domestic US actions* on spice products — not comprehensive of all Indian spice issues.
+           - **EU RASFF:** Annual aggregate notification counts from published EU Commission RASFF
+             Annual Reports, distributed monthly using seasonal weights. Individual notification
+             records are behind the RASFF Window portal (EU Login required).
+           - **FSSAI:** Domestic non-conformance rates from Parliamentary replies (Rajya Sabha Q.1907,
+             Lok Sabha Q.1252). Exact data available only for FY 2022-24; earlier years extrapolated.
 
         2. **Correlation ≠ Causation:** Even with Granger causality, we establish *temporal precedence*
            and *predictive power*, not definitive causal mechanisms. Multiple confounders exist
            (monsoon, policy changes, enforcement drive schedules).
 
-        3. **Export vs. Domestic:** EU RASFF/FDA data reflects export rejection rates.
+        3. **Export vs. Domestic:** EU RASFF/FDA data reflects export-side rejection rates.
            Domestic adulteration rates in unorganized retail markets are likely higher but unmeasured.
 
-        4. **Sample period:** ~10 years of monthly data. While sufficient for GARCH and
-           correlation analysis, longer series would strengthen confidence.
+        4. **FSSAI monthly distribution is estimated:** FSSAI reports annual totals; the monthly
+           distribution within each year is modeled, not observed. Only the annual failure rates
+           for FY 2022-24 are exact.
 
-        5. **FSSAI benchmarks (2022-2024):** Only 3 years of official spice-specific testing data
-           are available. Extrapolation to other years involves estimation uncertainty.
+        5. **FDA data covers all spice products, not just Indian-origin.** We filter by spice
+           keywords but cannot always determine country of origin from the enforcement records.
         """)
 
 
 # ─── Footer ──────────────────────────────────────────────────────────────────
 
 st.markdown("---")
-st.caption(
-    "**BTP Project:** Spice Price Dynamics & Adulteration-Incidence Correlation in India | "
-    "Data Sources: Agmarknet (data.gov.in), EU RASFF, US FDA, FSSAI | "
-    "Built with Streamlit + Python"
-)
+

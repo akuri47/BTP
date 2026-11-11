@@ -3,38 +3,38 @@
     "lag_results": [
       {
         "lag": 1,
-        "f_statistic": 1.3585,
-        "p_value": 0.2457,
+        "f_statistic": 1.3846,
+        "p_value": 0.2413,
         "significant": false
       },
       {
         "lag": 2,
-        "f_statistic": 1.0896,
-        "p_value": 0.3392,
+        "f_statistic": 0.7045,
+        "p_value": 0.4961,
         "significant": false
       },
       {
         "lag": 3,
-        "f_statistic": 0.7469,
-        "p_value": 0.5259,
+        "f_statistic": 1.2795,
+        "p_value": 0.284,
         "significant": false
       },
       {
         "lag": 4,
-        "f_statistic": 0.947,
-        "p_value": 0.439,
+        "f_statistic": 1.1028,
+        "p_value": 0.358,
         "significant": false
       },
       {
         "lag": 5,
-        "f_statistic": 0.9624,
-        "p_value": 0.4434,
+        "f_statistic": 1.0498,
+        "p_value": 0.3914,
         "significant": false
       },
       {
         "lag": 6,
-        "f_statistic": 0.8426,
-        "p_value": 0.5393,
+        "f_statistic": 1.0234,
+        "p_value": 0.4131,
         "significant": false
       }
     ],
@@ -46,38 +46,38 @@
     "lag_results": [
       {
         "lag": 1,
-        "f_statistic": 0.0276,
-        "p_value": 0.8683,
+        "f_statistic": 0.1862,
+        "p_value": 0.6667,
         "significant": false
       },
       {
         "lag": 2,
-        "f_statistic": 0.1267,
-        "p_value": 0.8811,
+        "f_statistic": 0.5242,
+        "p_value": 0.5932,
         "significant": false
       },
       {
         "lag": 3,
-        "f_statistic": 0.3811,
-        "p_value": 0.7668,
+        "f_statistic": 0.2805,
+        "p_value": 0.8394,
         "significant": false
       },
       {
         "lag": 4,
-        "f_statistic": 0.5168,
-        "p_value": 0.7235,
+        "f_statistic": 0.6038,
+        "p_value": 0.6606,
         "significant": false
       },
       {
         "lag": 5,
-        "f_statistic": 0.4378,
-        "p_value": 0.8215,
+        "f_statistic": 0.6528,
+        "p_value": 0.6599,
         "significant": false
       },
       {
         "lag": 6,
-        "f_statistic": 0.3439,
-        "p_value": 0.9123,
+        "f_statistic": 0.5566,
+        "p_value": 0.7641,
         "significant": false
       }
     ],
@@ -89,142 +89,132 @@
     "lag_results": [
       {
         "lag": 1,
-        "f_statistic": 3.5112,
-        "p_value": 0.063,
+        "f_statistic": 0.003,
+        "p_value": 0.9561,
         "significant": false
       },
       {
         "lag": 2,
-        "f_statistic": 4.3451,
-        "p_value": 0.0148,
-        "significant": true
+        "f_statistic": 1.64,
+        "p_value": 0.1977,
+        "significant": false
       },
       {
         "lag": 3,
-        "f_statistic": 3.3061,
-        "p_value": 0.0222,
-        "significant": true
+        "f_statistic": 1.1034,
+        "p_value": 0.3501,
+        "significant": false
       },
       {
         "lag": 4,
-        "f_statistic": 2.4934,
-        "p_value": 0.046,
-        "significant": true
+        "f_statistic": 0.877,
+        "p_value": 0.4796,
+        "significant": false
       },
       {
         "lag": 5,
-        "f_statistic": 1.9312,
-        "p_value": 0.0934,
+        "f_statistic": 0.6502,
+        "p_value": 0.6618,
         "significant": false
       },
       {
         "lag": 6,
-        "f_statistic": 2.6118,
-        "p_value": 0.0202,
-        "significant": true
+        "f_statistic": 1.1218,
+        "p_value": 0.3533,
+        "significant": false
       }
     ],
-    "any_significant": true,
-    "best_lag": {
-      "lag": 2,
-      "f_statistic": 4.3451,
-      "p_value": 0.0148,
-      "significant": true
-    },
+    "any_significant": false,
+    "best_lag": null,
     "n_observations": 147
   },
   "Dry Chillies": {
     "lag_results": [
       {
         "lag": 1,
-        "f_statistic": 6.0638,
-        "p_value": 0.015,
-        "significant": true
+        "f_statistic": 2.6554,
+        "p_value": 0.1054,
+        "significant": false
       },
       {
         "lag": 2,
-        "f_statistic": 2.7066,
-        "p_value": 0.0703,
+        "f_statistic": 2.4766,
+        "p_value": 0.0877,
         "significant": false
       },
       {
         "lag": 3,
-        "f_statistic": 2.5354,
-        "p_value": 0.0594,
+        "f_statistic": 1.6255,
+        "p_value": 0.1863,
         "significant": false
       },
       {
         "lag": 4,
-        "f_statistic": 1.8074,
-        "p_value": 0.131,
+        "f_statistic": 1.4447,
+        "p_value": 0.2228,
         "significant": false
       },
       {
         "lag": 5,
-        "f_statistic": 1.8967,
-        "p_value": 0.0991,
+        "f_statistic": 1.3146,
+        "p_value": 0.2617,
         "significant": false
       },
       {
         "lag": 6,
-        "f_statistic": 1.6112,
-        "p_value": 0.1491,
+        "f_statistic": 1.1379,
+        "p_value": 0.3442,
         "significant": false
       }
     ],
-    "any_significant": true,
-    "best_lag": {
-      "lag": 1,
-      "f_statistic": 6.0638,
-      "p_value": 0.015,
-      "significant": true
-    },
+    "any_significant": false,
+    "best_lag": null,
     "n_observations": 147
   },
   "Turmeric": {
     "lag_results": [
       {
         "lag": 1,
-        "f_statistic": 4.9459,
-        "p_value": 0.0277,
-        "significant": true
+        "f_statistic": 1.0408,
+        "p_value": 0.3094,
+        "significant": false
       },
       {
         "lag": 2,
-        "f_statistic": 2.9013,
-        "p_value": 0.0583,
+        "f_statistic": 0.6587,
+        "p_value": 0.5191,
         "significant": false
       },
       {
         "lag": 3,
-        "f_statistic": 2.481,
-        "p_value": 0.0637,
+        "f_statistic": 2.4318,
+        "p_value": 0.0678,
         "significant": false
       },
       {
         "lag": 4,
-        "f_statistic": 2.1803,
-        "p_value": 0.0745,
-        "significant": false
+        "f_statistic": 4.4995,
+        "p_value": 0.0019,
+        "significant": true
       },
       {
         "lag": 5,
-        "f_statistic": 1.7159,
-        "p_value": 0.1353,
-        "significant": false
+        "f_statistic": 3.6504,
+        "p_value": 0.004,
+        "significant": true
       },
       {
         "lag": 6,
-        "f_statistic": 1.4273,
-        "p_value": 0.2091,
-        "significant": false
+        "f_statistic": 3.0526,
+        "p_value": 0.008,
+        "significant": true
       }
     ],
     "any_significant": true,
     "best_lag": {
-      "lag": 1,
-      "f_statistic": 4.9459,
-      "p_value": 0.0277,
+      "lag": 4,
+      "f_statistic": 4.4995,
+      "p_value": 0.0019,
       "significant": true
     },
     "n_observations": 147

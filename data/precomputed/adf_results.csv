@@ -1,11 +1,11 @@
-spice,test_on,adf_stat,p_value,stationary
-Black Pepper,Level,-1.103,0.7139,False
-Black Pepper,Log Return,-8.5584,0.0,True
-Coriander,Level,-1.6233,0.471,False
-Coriander,Log Return,-10.0161,0.0,True
-Cumin (Jeera),Level,-1.9161,0.3245,False
-Cumin (Jeera),Log Return,-8.9252,0.0,True
-Dry Chillies,Level,-1.0305,0.742,False
-Dry Chillies,Log Return,-12.9772,0.0,True
-Turmeric,Level,-0.1165,0.9478,False
-Turmeric,Log Return,-7.2515,0.0,True
+spice,test_on,adf_statistic,p_value,lags_used,n_obs,critical_1pct,critical_5pct,stationary
+Black Pepper,Level (Price),-1.103,0.7139,2,150,-3.4747,-2.881,False
+Black Pepper,First Diff (Log Return),-8.5584,0.0,1,150,-3.4747,-2.881,True
+Coriander,Level (Price),-1.6233,0.471,1,151,-3.4744,-2.8809,False
+Coriander,First Diff (Log Return),-10.0161,0.0,0,151,-3.4744,-2.8809,True
+Cumin (Jeera),Level (Price),-1.9161,0.3245,14,138,-3.4786,-2.8827,False
+Cumin (Jeera),First Diff (Log Return),-8.9252,0.0,0,151,-3.4744,-2.8809,True
+Dry Chillies,Level (Price),-1.0305,0.742,0,152,-3.4741,-2.8807,False
+Dry Chillies,First Diff (Log Return),-12.9772,0.0,0,151,-3.4744,-2.8809,True
+Turmeric,Level (Price),-0.1165,0.9478,14,138,-3.4786,-2.8827,False
+Turmeric,First Diff (Log Return),-7.2515,0.0,4,147,-3.4756,-2.8814,True

@@ -50,7 +50,7 @@ def run_adf_tests(df_monthly: pd.DataFrame) -> pd.DataFrame:
             "n_obs": adf_level[3],
             "critical_1pct": round(adf_level[4]["1%"], 4),
             "critical_5pct": round(adf_level[4]["5%"], 4),
-            "stationary": adf_level[1] < 0.05,
+            "stationary": bool(adf_level[1] < 0.05),
         })
 
         # Test on first differences (log returns)
@@ -66,7 +66,7 @@ def run_adf_tests(df_monthly: pd.DataFrame) -> pd.DataFrame:
                 "n_obs": adf_diff[3],
                 "critical_1pct": round(adf_diff[4]["1%"], 4),
                 "critical_5pct": round(adf_diff[4]["5%"], 4),
-                "stationary": adf_diff[1] < 0.05,
+                "stationary": bool(adf_diff[1] < 0.05),
             })
 
     df_results = pd.DataFrame(results)
@@ -210,7 +210,7 @@ def fit_garch_models(df_monthly: pd.DataFrame) -> dict:
                 ),
             }
 
-            print(f"  {spice}: α={alpha:.4f}, β={beta:.4f}, persistence={persistence:.4f} "
+            print(f"  {spice}: a={alpha:.4f}, b={beta:.4f}, persistence={persistence:.4f} "
                   f"-> {'HIGH' if persistence > 0.9 else 'MODERATE' if persistence > 0.7 else 'LOW'}")
 
         except Exception as e:
@@ -270,7 +270,7 @@ def compute_cross_correlations(df_monthly: pd.DataFrame,
                     "lag": lag,
                     "correlation": round(corr, 4),
                     "p_value": round(pval, 4),
-                    "significant": pval < 0.05,
+                    "significant": bool(pval < 0.05),
                 })
 
         # Find the lag with strongest positive correlation
@@ -329,7 +329,7 @@ def run_granger_causality(df_monthly: pd.DataFrame,
             continue
 
         try:
-            gc_result = grangercausalitytests(combined, maxlag=max_lag, verbose=False)
+            gc_result = grangercausalitytests(combined, maxlag=max_lag)
 
             lag_results = []
             for lag in range(1, max_lag + 1):
@@ -341,7 +341,7 @@ def run_granger_causality(df_monthly: pd.DataFrame,
                         "lag": lag,
                         "f_statistic": round(f_stat, 4),
                         "p_value": round(p_val, 4),
-                        "significant": p_val < 0.05,
+                        "significant": bool(p_val < 0.05),
                     })
 
             # Best (most significant) lag

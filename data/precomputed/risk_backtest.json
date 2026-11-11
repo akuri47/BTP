@@ -1,0 +1,52 @@
+[
+  {
+    "event": "Sudan dye contamination wave in Indian chilli exports",
+    "period": "2015-06 to 2016-06",
+    "spice": "Dry Chillies",
+    "detected": "True",
+    "avg_score": 65.9,
+    "pct_high": 61.5,
+    "pct_moderate_plus": 100.0,
+    "verdict": "\u2705 Detected"
+  },
+  {
+    "event": "COVID-19 supply chain disruption",
+    "period": "2020-03 to 2020-09",
+    "spice": "All spices",
+    "detected": "True",
+    "avg_score": 46.9,
+    "pct_high": 8.6,
+    "pct_moderate_plus": 80.0,
+    "verdict": "\u2705 Detected"
+  },
+  {
+    "event": "Cumin price spike \u2014 widespread adulteration detected",
+    "period": "2023-01 to 2023-09",
+    "spice": "Cumin (Jeera)",
+    "detected": "True",
+    "avg_score": 69.3,
+    "pct_high": 66.7,
+    "pct_moderate_plus": 100.0,
+    "verdict": "\u2705 Detected"
+  },
+  {
+    "event": "MDH/Everest EtO crisis, Hong Kong/Singapore recalls",
+    "period": "2024-04 to 2024-08",
+    "spice": "All spices",
+    "detected": "True",
+    "avg_score": 45.8,
+    "pct_high": 8.0,
+    "pct_moderate_plus": 72.0,
+    "verdict": "\u2705 Detected"
+  },
+  {
+    "event": "FSSAI special surveillance drive",
+    "period": "2024-09 to 2025-03",
+    "spice": "All spices",
+    "detected": "True",
+    "avg_score": 46.3,
+    "pct_high": 8.6,
+    "pct_moderate_plus": 82.9,
+    "verdict": "\u2705 Detected"
+  }
+]

@@ -1,0 +1,37 @@
+{
+  "Turmeric": {
+    "price_percentile": 0.15,
+    "volatility": 0.3,
+    "momentum": 0.25,
+    "seasonal": 0.15,
+    "adulteration_trend": 0.15
+  },
+  "Dry Chillies": {
+    "price_percentile": 0.18,
+    "volatility": 0.28,
+    "momentum": 0.22,
+    "seasonal": 0.15,
+    "adulteration_trend": 0.17
+  },
+  "Cumin (Jeera)": {
+    "price_percentile": 0.18,
+    "volatility": 0.28,
+    "momentum": 0.22,
+    "seasonal": 0.15,
+    "adulteration_trend": 0.17
+  },
+  "Coriander": {
+    "price_percentile": 0.2,
+    "volatility": 0.18,
+    "momentum": 0.15,
+    "seasonal": 0.17,
+    "adulteration_trend": 0.3
+  },
+  "Black Pepper": {
+    "price_percentile": 0.2,
+    "volatility": 0.18,
+    "momentum": 0.15,
+    "seasonal": 0.17,
+    "adulteration_trend": 0.3
+  }
+}
